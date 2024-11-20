@@ -69,70 +69,67 @@ app.get("/",(req,res)=>{
 app.get("/register",(req,res)=>{
     return res.render("registerPage")
 })
+app.post("/register", async (req, res) => {
+    const { name, email, username, password } = req.body;
 
-app.post("/register",async(req,res)=>{
-    const{name,email,username,password}=req.body;
+    // Trim the password to remove any leading or trailing whitespace
+    const trimmedPassword = password.trim();
 
-
-    //data validation
-    try{
-        await userDataValidation({name,password,email,username});
-    }catch(error){
+    // Data validation
+    try {
+        await userDataValidation({ name, trimmedPassword, email, username });
+    } catch (error) {
         return res.send({
-            status:400,
-            message:"user data errorr",
-            error:error,
-        })
+            status: 400,
+            message: "User  data error",
+            error: error,
+        });
     }
 
-     //check if email and username already exist or not
-     const userEmailExist=await userModel.findOne({email});
-     if(userEmailExist){
+    // Check if email and username already exist or not
+    const userEmailExist = await userModel.findOne({ email });
+    if (userEmailExist) {
         return res.send({
-            status:400,
-            message:"Email already exist",
-        })
-     }
+            status: 400,
+            message: "Email already exists",
+        });
+    }
 
-     const userUsernameExist=await userModel.findOne({username})
-     if(userUsernameExist){
+    const userUsernameExist = await userModel.findOne({ username });
+    if (userUsernameExist) {
         return res.send({
-            status:400,
-            message:"username already exist",
-        })
-     }
+            status: 400,
+            message: "Username already exists",
+        });
+    }
 
-     //hashed password
-     const hashedpassword=await bcrypt.hash(
-        password,
+    // Hashed password
+    const hashedPassword = await bcrypt.hash(
+        trimmedPassword, // Use the trimmed password here
         parseInt(process.env.SALT)
-     );
+    );
 
-  //store the data in Db
-  const userObj=new userModel({
-    //schema : client
-    name:name,
-    email:email,
-    username:username,
-    // password:password,
-    password:hashedpassword,
-  });
-  try{
-    const userDb=await userObj.save();
+    // Store the data in Db
+    const userObj = new userModel({
+        // Schema : client
+        name: name,
+        email: email,
+        username: username,
+        password: hashedPassword, // Store the hashed password
+    });
 
-    //generate a token
-    const verifiedToken=generateJWTToken(email);
+    try {
+        const userDb = await userObj.save();
 
-    //send a mail to user
-    sendVerificationEmail(email,verifiedToken)
+        // Generate a token
+        const verifiedToken = generateJWTToken(email);
 
-     // return res.send({
-    //   status: 201,
-    //   message: "Registeration successfull",
-    //   data: userDb,
-    // });
-    return res.status(200).render("popup");
-}catch(error){
+        // Send a mail to user
+        sendVerificationEmail(email, verifiedToken);
+
+        // Return success response
+        return res.status(200).render("popup");
+    } catch(error){
     return res.send({
             status:900,
             message:"Database error",
@@ -177,11 +174,14 @@ app.post("/login",async(req,res)=>{
     //find the user from DB with loginId
     try{
         let userDb;
-        if(validator.isEmail(loginId)){
-            userDb=await userModel.findOne({email:loginId});
-        }else{
-            userDb=await userModel.findOne({username:loginId});
-        }
+   // Trim the loginId to remove any leading or trailing whitespace
+const trimmedLoginId = loginId.trim();
+
+if (validator.isEmail(trimmedLoginId)) {
+    userDb = await userModel.findOne({ email: trimmedLoginId });
+} else {
+    userDb = await userModel.findOne({ username: trimmedLoginId });
+}
         if(!userDb){
             return res.send({
                 status:400,
