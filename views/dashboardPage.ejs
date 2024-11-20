@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TODO LIST</title>
+  <style>
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: url(./loginBg.jpg) no-repeat;
+      background-position: center;
+      background-size: cover;
+    }
+
+    .container {
+      width: 400px;
+      height: auto;
+      min-height: 600px;
+      padding: 30px;
+      background: transparent;
+      border: 2px solid #e6b7eca1;
+      border-radius: 10px;
+      -webkit-backdrop-filter:blur(15px);
+      backdrop-filter: blur(15px);
+    }
+
+    h1 {
+      color: #eee;
+      text-align: center;
+      margin-bottom: 36px;
+    }
+
+    .input-container {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 25px;
+    }
+
+    .todo-input {
+      flex: 1;
+      outline: none;
+      padding: 10px 10px 10px 20px;
+      background-color: transparent;
+      border: 2px solid #e6b7eca1;
+      border-radius: 30px;
+      color: #eee;
+      margin-right: 10px;
+    }
+
+    .todo-input::placeholder {
+      color: #bfbfbf;
+    }
+
+    .add-button {
+      border: none;
+      outline: none;
+      background: transparent;
+      cursor: pointer;
+      border-radius: 25px;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+    }
+
+    .add-button:hover {
+      background-color: #9a7eab;
+    }
+
+    .empty-image {
+      margin: 55px auto 0;
+      display: block;
+    }
+
+    #logout,
+    #logoutAll,.delete-me,.edit-me,.show_more {
+      border-radius: 100px;
+      border: 2px solid #e6b7eca1;
+      background: transparent;
+      padding: 5px 15px;
+      cursor: pointer;
+      color: #eee;
+      cursor: pointer;
+    }
+    .delete-me,.edit-me{
+    margin-top: 10px;
+    }
+    .edit-me{
+      margin-left: 180px;
+    }
+    #logout:hover,
+    #logoutAll:hover,.edit-me:hover,.delete-me:hover,.show_more:hover {
+      background-color: #e6b7eca1;
+    }
+    .list-group-item{
+      width: 350px;
+      background-color: #463c7b;
+      margin-bottom: 10px;
+      padding: 10px;
+      color: white;
+      list-style-type: circle;
+      border-radius: 0px 10px 10px 0px;
+      
+    }
+
+/* popupcode */
+
+    .popup{
+        width:300px;
+        background:#9a7eab;
+        border-radius: 12px;
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translate(-50%,-50%)scale(0.1);
+        text-align:center;
+        padding:0 30px 30px;
+        color:white;
+        visibility: hidden;
+      transition: transform 0.4s,top 0.4s;
+      z-index: 20;
+    }
+    .open-popup{
+      visibility: visible;
+      top: 50%;
+      transform: translate(-50%,-50%)scale(1);
+    }
+    .popup img{
+        width:80px;
+        margin-top:-50px;
+        border-radius:50%;
+        box-shadow:0 2px 5px rgb(0,0,0,0.2);
+    }
+    .popup h2{
+        font-size:34px;
+        font-weight: 500;
+        margin:30px 0 10px;
+    }
+    .popup button{
+        width:80%;
+        margin-top:50px;
+        padding: 10px 0px;
+        background: #6fd649;
+        color: #fff;
+        border:0;
+        outline:none;
+        font-size:18px;
+        border-radius:4px;
+        cursor:pointer;
+        box-shadow: 0 5px 5px rgba(0,0,0,0.2);
+
+    }
+   
+
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <h1>Todo List</h1>
+    <div>
+      <form class="input-container" action="/create-item" method="POST">
+        <input id="create_field" class="todo-input form-control" name="todo" type="text" autocomplete="off" autofocus
+          placeholder="Add a new task...">
+        <button type="submit" class="add-button add_item">
+          <img src="./check.png" alt="check">
+        </button>
+      </form>
+    </div>
+
+
+
+
+    <div class="todos-container">
+      <ul id="item_list" class="list-group todos">
+      </ul>
+      <button class="show_more">Show More</button>
+      <img class="empty-image" src="./empty.svg">
+    </div>
+    <div style=" display: flex; gap: 10px; align-items: center; justify-content: center;">
+      <form action='/logout' method="POST">
+        <button id="logout"> Logout <button>
+      </form>
+      <form action='/logout_from_all_devices' method="POST">
+        <button id="logoutAll"> Logout from all devices <button>
+      </form>
+    </div>
+  </div>
+
+    <div class="popup" id="popup">
+        <img src ="tick.png">
+        <h2>Thank you</h2>
+        <p>Your have sucessfully editted your List</p>
+        <a href="http://localhost:8001/dashboard"><button type="button" >Ok</button></a>
+    </div>
+
+  <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
+  <script src="/browser.js"></script>
+</body>
+
+</html>

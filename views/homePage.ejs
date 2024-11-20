@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>todo</title>
+    <link rel="shortcut icon" href="todo.jpg" type="image/x-icon">
+    <style>
+        #banner{
+            background:url(./todo.jpg);
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            height: 575px;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            font-size: 20px;
+            font-weight: bold;
+            color:white;
+            
+            text-shadow: #523643 5px 5px 5px;
+        }
+        button{
+            background-color:  #04b7e4;
+            font-size: 30px;
+            padding: 10px 25px;
+            border:5px double gold ;
+            border-radius: 10px;
+            height: 70px;
+            color: #7b00d9;
+            opacity: 0.6;
+            font-weight: bold;
+            font-family: cursive;
+            cursor: pointer;
+        }
+        button:hover{
+            background-color: #00ffff;
+        }
+        label{
+            position: top;
+        }
+       
+    </style>
+</head>
+<body>
+    <div id="banner">
+       <div style="display: flex;flex-direction: column; align-items: center; justify-content: center;  position: relative;
+            bottom: 25px;">
+        <p for="log">"Got an account? Log in and behold your glorious list!" 🚀</p>
+       <a href="http://localhost:8001/login"> <button id="log">Login</button></a>
+       </div>
+       <div style="display: flex;flex-direction: column; align-items: center; justify-content: center;position: relative;top: 25px;"> <p for="reg">"New here? Join the fun—Register now!" 🎉</p>
+        <a href="http://localhost:8001/register"><button id="reg">Resgister</button></a>
+    </div>
+    </div>
+</body>
+</html>
