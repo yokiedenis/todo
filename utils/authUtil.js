@@ -114,7 +114,7 @@ const sendVerificationEmail = (email, verifiedToken) => {
           </tr>
           <tr>
             <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 24px; padding: 20px 0 30px 0;">
-            <a href="http://localhost:8001/verifytoken/${verifiedToken}" style=" border: none;
+            <a href="https://todo-84ly.onrender.com/verifytoken/${verifiedToken}" style=" border: none;
             background-color: #ef7e5c;
     color: white;
     padding: 15px 32px;
