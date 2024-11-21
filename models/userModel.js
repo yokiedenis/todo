@@ -28,4 +28,5 @@ required:true,
     },
 });
 
-module.exports=mongoose.model("user",userSchema);
+//if the model is sharing with another model
+module.exports = mongoose.models['Users'] || mongoose.model('Users', userSchema)

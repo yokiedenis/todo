@@ -12,4 +12,5 @@ const todoSchema=new Schema({
     }
 });
 
-module.exports=mongoose.model("todo",todoSchema);
+//if the model is sharing with another model
+module.exports = mongoose.models['todo'] || mongoose.model("todo",todoSchema);
