@@ -72,12 +72,11 @@ app.get("/register",(req,res)=>{
 app.post("/register", async (req, res) => {
     const { name, email, username, password } = req.body;
 
-    // Trim the password to remove any leading or trailing whitespace
-    const trimmedPassword = password.trim();
+
 
     // Data validation
     try {
-        await userDataValidation({ name, trimmedPassword, email, username });
+        await userDataValidation({ name, password, email, username });
     } catch (error) {
         return res.send({
             status: 400,
@@ -105,7 +104,7 @@ app.post("/register", async (req, res) => {
 
     // Hashed password
     const hashedPassword = await bcrypt.hash(
-        trimmedPassword, // Use the trimmed password here
+        password, 
         parseInt(process.env.SALT)
     );
 
